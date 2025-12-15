@@ -10,6 +10,18 @@ import { getResourcePath } from '.'
 
 const logger = loggerService.withContext('Utils:Process')
 
+export type SpawnResult = {
+  exitCode: number | null
+  signal: NodeJS.Signals | null
+  stdout: string
+  stderr: string
+}
+
+export type SpawnStreamingHandlers = {
+  onStdoutChunk?: (chunk: string) => void
+  onStderrChunk?: (chunk: string) => void
+}
+
 export function runInstallScript(scriptPath: string): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const installScriptPath = path.join(getResourcePath(), 'scripts', scriptPath)
@@ -39,6 +51,42 @@ export function runInstallScript(scriptPath: string): Promise<void> {
   })
 }
 
+export function spawnNodeScriptStreaming(
+  absoluteScriptPath: string,
+  handlers: SpawnStreamingHandlers = {}
+): Promise<SpawnResult> {
+  return new Promise<SpawnResult>((resolve, reject) => {
+    const child = spawn(process.execPath, [absoluteScriptPath], {
+      shell: false,
+      windowsHide: true,
+      env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' }
+    })
+
+    let stdout = ''
+    let stderr = ''
+
+    child.stdout?.on('data', (buf) => {
+      const chunk = String(buf)
+      stdout += chunk
+      handlers.onStdoutChunk?.(chunk)
+    })
+
+    child.stderr?.on('data', (buf) => {
+      const chunk = String(buf)
+      stderr += chunk
+      handlers.onStderrChunk?.(chunk)
+    })
+
+    child.on('error', (err) => {
+      reject(err)
+    })
+
+    child.on('close', (exitCode, signal) => {
+      resolve({ exitCode, signal, stdout, stderr })
+    })
+  })
+}
+
 export async function getBinaryName(name: string): Promise<string> {
   if (isWin) {
     return `${name}.exe`
@@ -59,7 +107,25 @@ export async function getBinaryPath(name?: string): Promise<string> {
 
 export async function isBinaryExists(name: string): Promise<boolean> {
   const cmd = await getBinaryPath(name)
-  return await fs.existsSync(cmd)
+
+  // 1) Prefer bundled/user-local binary location
+  if (fs.existsSync(cmd)) {
+    return true
+  }
+
+  // 2) Fallback to PATH resolution (avoid shell)
+  if (isWin) {
+    return findExecutable(name) !== null
+  }
+
+  try {
+    // `which` is widely available on macOS/Linux.
+    // Use execFileSync to prevent command injection.
+    execFileSync('which', [name], { stdio: ['ignore', 'ignore', 'ignore'] })
+    return true
+  } catch {
+    return false
+  }
 }
 
 /**

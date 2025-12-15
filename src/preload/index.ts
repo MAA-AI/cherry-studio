@@ -4,7 +4,7 @@ import type { SpanEntity, TokenUsage } from '@mcp-trace/trace-core'
 import type { SpanContext } from '@opentelemetry/api'
 import type { TerminalConfig, UpgradeChannel } from '@shared/config/constant'
 import type { LogLevel, LogSourceWithContext } from '@shared/config/logger'
-import type { FileChangeEvent, WebviewKeyEvent } from '@shared/config/types'
+import type { FileChangeEvent, McpEnvInitEvent, McpEnvInitState, WebviewKeyEvent } from '@shared/config/types'
 import type { MCPServerLogEntry } from '@shared/config/types'
 import { IpcChannel } from '@shared/IpcChannel'
 import type { Notification } from '@types'
@@ -385,6 +385,17 @@ const api = {
       }
       ipcRenderer.on(IpcChannel.Mcp_ServerLog, listener)
       return () => ipcRenderer.off(IpcChannel.Mcp_ServerLog, listener)
+    }
+  },
+  mcpEnv: {
+    startInit: (): Promise<McpEnvInitState> => ipcRenderer.invoke(IpcChannel.McpEnv_InitStart),
+    getState: (): Promise<McpEnvInitState> => ipcRenderer.invoke(IpcChannel.McpEnv_InitGetState),
+    onEvent: (callback: (event: McpEnvInitEvent) => void) => {
+      const listener = (_event: Electron.IpcRendererEvent, event: McpEnvInitEvent) => {
+        callback(event)
+      }
+      ipcRenderer.on(IpcChannel.McpEnv_InitEvent, listener)
+      return () => ipcRenderer.off(IpcChannel.McpEnv_InitEvent, listener)
     }
   },
   python: {

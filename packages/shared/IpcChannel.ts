@@ -75,6 +75,10 @@ export enum IpcChannel {
 
   // Mcp
   Mcp_AddServer = 'mcp:add-server',
+  // MCP environment bootstrap (uv/bun install + first-run init)
+  McpEnv_InitStart = 'mcp-env:init-start',
+  McpEnv_InitGetState = 'mcp-env:init-get-state',
+  McpEnv_InitEvent = 'mcp-env:init-event',
   Mcp_RemoveServer = 'mcp:remove-server',
   Mcp_RestartServer = 'mcp:restart-server',
   Mcp_StopServer = 'mcp:stop-server',

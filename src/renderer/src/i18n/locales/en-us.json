@@ -1609,6 +1609,75 @@
     },
     "title": "LM Studio"
   },
+  "mcp": {
+    "envInit": {
+      "buttons": {
+        "close": "Close",
+        "retryActivate": "Retry Activate maa-mcp",
+        "retryInit": "Re-check/Retry Initialization"
+      },
+      "description": "Check and prepare MCP runtime environment (uv / bun), and automatically activate maa-mcp.",
+      "errorSummary": {
+        "certificateIssue": "Suspected TLS verification failure caused by certificate/proxy man-in-the-middle. Please check system/proxy certificates, corporate proxy or disable HTTPS interception.",
+        "networkIssue": "Suspected network unavailable or proxy/firewall blocking. Please check network connection, proxy settings, enterprise gateway and DNS.",
+        "permissionUnix": "Suspected insufficient permissions. Please confirm write permissions to user directory, use sudo/grant permissions if necessary.",
+        "permissionWindows": "Suspected insufficient permissions. Please try running as administrator, or confirm security software is not blocking user directory writes."
+      },
+      "errors": {
+        "activateFailed": "Activation failed: \nCommand: uvx maa-mcp\nSuggestion: Check network/proxy/certificate, or retry later.",
+        "activateTimeout": "Activation timeout: handshake (listTools) not completed within 30 seconds",
+        "cannotConnectMaaMcp": "Unable to connect to maa-mcp. Possible reasons: network unavailable, proxy/certificate issues, uv/uvx not ready or first startup dependency download failed. Suggest checking logs and retry.",
+        "command": "Command: ",
+        "connectionTimeout": "Connection timeout: MCP availability not confirmed within 12 seconds",
+        "exitCode": "Exit Code: ",
+        "initFailed": "Initialization Failed",
+        "maaMcpActivateFailed": "maa-mcp Activation Failed",
+        "stderrTail": "stderr (tail): ",
+        "stdoutTail": "stdout (tail): ",
+        "suggestion": "Suggestion: ",
+        "unknownError": "Unknown Error"
+      },
+      "logs": {
+        "title": "Initialization Logs (info/warn/error)"
+      },
+      "messages": {
+        "bunInstallException": "bun installation exception: ",
+        "bunInstallFailed": "bun installation failed.",
+        "bunInstallScriptCompleted": "bun installation script completed",
+        "bunInstalled": "bun installed",
+        "bunNotInstalled": "bun not detected",
+        "checkNetworkPermissionCert": "Please check network/permission/certificate issues and retry.",
+        "checkNetworkProxy": "Please check network/proxy, certificate and user directory write permissions.",
+        "checkPowerShellFirewall": "Please check PowerShell/firewall blocking, enterprise proxy, Windows Defender Controlled Folder Access.",
+        "checkSecuritySoftware": "Please check security software blocking, user directory write permissions, or manually run installation script and retry.",
+        "checkingBun": "Checking bun ...",
+        "checkingUv": "Checking uv/uvx ...",
+        "initComplete": "Initialization complete: uv/bun ready",
+        "initFailed": "Initialization failed: ",
+        "installScriptCompletedButRecheckFailed": "Installation script completed, but re-check still failed to detect uv/bun.",
+        "needInstall": "Need to install: ",
+        "noNeedInstall": "No installation needed: uv/bun ready",
+        "recheckAfterInstall": "Re-check uv/bun after installation ...",
+        "startCheck": "Start checking MCP runtime environment (uv / bun)",
+        "startInstallBun": "Start installing bun ...",
+        "startInstallUv": "Start installing uv ...",
+        "uvInstallException": "uv installation exception: ",
+        "uvInstallFailed": "uv installation failed.",
+        "uvInstallScriptCompleted": "uv installation script completed",
+        "uvInstalled": "uv/uvx installed",
+        "uvNotInstalled": "uv/uvx not detected"
+      },
+      "steps": {
+        "activateMaaMcp": "Activate maa-mcp",
+        "checkBun": "Check bun",
+        "checkUv": "Check uv",
+        "complete": "Complete",
+        "install": "Install (if needed)",
+        "startCheck": "Start Check"
+      },
+      "title": "Initialization"
+    }
+  },
   "memory": {
     "actions": "Actions",
     "add_failed": "Failed to add memory",
