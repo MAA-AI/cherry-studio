@@ -1612,70 +1612,70 @@
   "mcp": {
     "envInit": {
       "buttons": {
-        "close": "[to be translated]:Close",
-        "retryActivate": "[to be translated]:Retry Activate maa-mcp",
-        "retryInit": "[to be translated]:Re-check/Retry Initialization"
+        "close": "關閉",
+        "retryActivate": "重試激活 maa-mcp",
+        "retryInit": "重新檢查/重試初始化"
       },
-      "description": "[to be translated]:Check and prepare MCP runtime environment (uv / bun), and automatically activate maa-mcp.",
+      "description": "檢查並準備 MCP 運行時環境（uv / bun），並自動激活 maa-mcp。",
       "errorSummary": {
-        "certificateIssue": "[to be translated]:Suspected TLS verification failure caused by certificate/proxy man-in-the-middle. Please check system/proxy certificates, corporate proxy or disable HTTPS interception.",
-        "networkIssue": "[to be translated]:Suspected network unavailable or proxy/firewall blocking. Please check network connection, proxy settings, enterprise gateway and DNS.",
-        "permissionUnix": "[to be translated]:Suspected insufficient permissions. Please confirm write permissions to user directory, use sudo/grant permissions if necessary.",
-        "permissionWindows": "[to be translated]:Suspected insufficient permissions. Please try running as administrator, or confirm security software is not blocking user directory writes."
+        "certificateIssue": "疑似 TLS 驗證失敗，可能由證書/代理中間人引起。請檢查系統/代理證書、企業代理或禁用 HTTPS 攔截。",
+        "networkIssue": "疑似網路不可用或代理/防火牆阻擋。請檢查網路連線、代理設定、企業閘道及 DNS。",
+        "permissionUnix": "疑似權限不足。請確認對使用者目錄的寫入權限，必要時使用 sudo/授予權限。",
+        "permissionWindows": "疑似權限不足。請嘗試以管理員身份運行，或確認安全軟體未阻擋使用者目錄寫入。"
       },
       "errors": {
-        "activateFailed": "[to be translated]:Activation failed: \nCommand: uvx maa-mcp\nSuggestion: Check network/proxy/certificate, or retry later.",
-        "activateTimeout": "[to be translated]:Activation timeout: handshake (listTools) not completed within 30 seconds",
-        "cannotConnectMaaMcp": "[to be translated]:Unable to connect to maa-mcp. Possible reasons: network unavailable, proxy/certificate issues, uv/uvx not ready or first startup dependency download failed. Suggest checking logs and retry.",
-        "command": "[to be translated]:Command: ",
-        "connectionTimeout": "[to be translated]:Connection timeout: MCP availability not confirmed within 12 seconds",
-        "exitCode": "[to be translated]:Exit Code: ",
-        "initFailed": "[to be translated]:Initialization Failed",
-        "maaMcpActivateFailed": "[to be translated]:maa-mcp Activation Failed",
-        "stderrTail": "[to be translated]:stderr (tail): ",
-        "stdoutTail": "[to be translated]:stdout (tail): ",
-        "suggestion": "[to be translated]:Suggestion: ",
-        "unknownError": "[to be translated]:Unknown Error"
+        "activateFailed": "激活失敗：\n命令：uvx maa-mcp\n建議：檢查網路/代理/證書，或稍後重試。",
+        "activateTimeout": "激活超時：握手（listTools）未在 30 秒內完成",
+        "cannotConnectMaaMcp": "無法連接到 maa-mcp。可能原因：網路不可用、代理/證書問題、uv/uvx 未準備好或首次啟動依賴下載失敗。建議檢查日誌並重試。",
+        "command": "命令：",
+        "connectionTimeout": "連接超時：未在 12 秒內確認 MCP 可用性",
+        "exitCode": "退出代碼：",
+        "initFailed": "初始化失敗",
+        "maaMcpActivateFailed": "maa-mcp 激活失敗",
+        "stderrTail": "標準錯誤輸出（尾部）：",
+        "stdoutTail": "標準輸出（尾部）：",
+        "suggestion": "建議：",
+        "unknownError": "未知錯誤"
       },
       "logs": {
-        "title": "[to be translated]:Initialization Logs (info/warn/error)"
+        "title": "初始化日誌（資訊/警告/錯誤）"
       },
       "messages": {
-        "bunInstallException": "[to be translated]:bun installation exception: ",
-        "bunInstallFailed": "[to be translated]:bun installation failed.",
-        "bunInstallScriptCompleted": "[to be translated]:bun installation script completed",
-        "bunInstalled": "[to be translated]:bun installed",
-        "bunNotInstalled": "[to be translated]:bun not detected",
-        "checkNetworkPermissionCert": "[to be translated]:Please check network/permission/certificate issues and retry.",
-        "checkNetworkProxy": "[to be translated]:Please check network/proxy, certificate and user directory write permissions.",
-        "checkPowerShellFirewall": "[to be translated]:Please check PowerShell/firewall blocking, enterprise proxy, Windows Defender Controlled Folder Access.",
-        "checkSecuritySoftware": "[to be translated]:Please check security software blocking, user directory write permissions, or manually run installation script and retry.",
-        "checkingBun": "[to be translated]:Checking bun ...",
-        "checkingUv": "[to be translated]:Checking uv/uvx ...",
-        "initComplete": "[to be translated]:Initialization complete: uv/bun ready",
-        "initFailed": "[to be translated]:Initialization failed: ",
-        "installScriptCompletedButRecheckFailed": "[to be translated]:Installation script completed, but re-check still failed to detect uv/bun.",
-        "needInstall": "[to be translated]:Need to install: ",
-        "noNeedInstall": "[to be translated]:No installation needed: uv/bun ready",
-        "recheckAfterInstall": "[to be translated]:Re-check uv/bun after installation ...",
-        "startCheck": "[to be translated]:Start checking MCP runtime environment (uv / bun)",
-        "startInstallBun": "[to be translated]:Start installing bun ...",
-        "startInstallUv": "[to be translated]:Start installing uv ...",
-        "uvInstallException": "[to be translated]:uv installation exception: ",
-        "uvInstallFailed": "[to be translated]:uv installation failed.",
-        "uvInstallScriptCompleted": "[to be translated]:uv installation script completed",
-        "uvInstalled": "[to be translated]:uv/uvx installed",
-        "uvNotInstalled": "[to be translated]:uv/uvx not detected"
+        "bunInstallException": "bun 安裝異常：",
+        "bunInstallFailed": "bun 安裝失敗。",
+        "bunInstallScriptCompleted": "bun 安裝腳本完成",
+        "bunInstalled": "bun 已安裝",
+        "bunNotInstalled": "未檢測到 bun",
+        "checkNetworkPermissionCert": "請檢查網路/權限/證書問題並重試。",
+        "checkNetworkProxy": "請檢查網路/代理、證書及使用者目錄寫入權限。",
+        "checkPowerShellFirewall": "請檢查 PowerShell/防火牆阻擋、企業代理、Windows Defender 受控資料夾存取。",
+        "checkSecuritySoftware": "請檢查安全軟體阻擋、使用者目錄寫入權限，或手動執行安裝腳本並重試。",
+        "checkingBun": "正在檢查 bun ...",
+        "checkingUv": "正在檢查 uv/uvx ...",
+        "initComplete": "初始化完成：uv/bun 已準備好",
+        "initFailed": "初始化失敗：",
+        "installScriptCompletedButRecheckFailed": "安裝腳本完成，但重新檢查仍未檢測到 uv/bun。",
+        "needInstall": "需要安裝：",
+        "noNeedInstall": "不需要安裝：uv/bun 已準備好",
+        "recheckAfterInstall": "安裝後重新檢查 uv/bun ...",
+        "startCheck": "開始檢查 MCP 運行時環境（uv / bun）",
+        "startInstallBun": "開始安裝 bun ...",
+        "startInstallUv": "開始安裝 uv ...",
+        "uvInstallException": "uv 安裝異常：",
+        "uvInstallFailed": "uv 安裝失敗。",
+        "uvInstallScriptCompleted": "uv 安裝腳本完成",
+        "uvInstalled": "uv/uvx 已安裝",
+        "uvNotInstalled": "未檢測到 uv/uvx"
       },
       "steps": {
-        "activateMaaMcp": "[to be translated]:Activate maa-mcp",
-        "checkBun": "[to be translated]:Check bun",
-        "checkUv": "[to be translated]:Check uv",
-        "complete": "[to be translated]:Complete",
-        "install": "[to be translated]:Install (if needed)",
-        "startCheck": "[to be translated]:Start Check"
+        "activateMaaMcp": "激活 maa-mcp",
+        "checkBun": "檢查 bun",
+        "checkUv": "檢查 uv",
+        "complete": "完成",
+        "install": "安裝（如有需要）",
+        "startCheck": "開始檢查"
       },
-      "title": "[to be translated]:Initialization"
+      "title": "初始化"
     }
   },
   "memory": {
