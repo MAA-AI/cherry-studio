@@ -240,19 +240,19 @@ describe('file', () => {
   describe('getConfigDir', () => {
     it('should return correct config directory path', () => {
       const configDir = getConfigDir()
-      expect(configDir).toBe('/mock/home/.cherrystudio/config')
+      expect(configDir).toBe('/mock/home/.m3agent/config')
     })
   })
 
   describe('getAppConfigDir', () => {
     it('should return correct app config directory path', () => {
       const appConfigDir = getAppConfigDir('test-app')
-      expect(appConfigDir).toBe('/mock/home/.cherrystudio/config/test-app')
+      expect(appConfigDir).toBe('/mock/home/.m3agent/config/test-app')
     })
 
     it('should handle empty app name', () => {
       const appConfigDir = getAppConfigDir('')
-      expect(appConfigDir).toBe('/mock/home/.cherrystudio/config/')
+      expect(appConfigDir).toBe('/mock/home/.m3agent/config/')
     })
   })
 

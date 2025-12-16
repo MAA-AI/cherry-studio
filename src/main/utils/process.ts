@@ -1,5 +1,5 @@
 import { loggerService } from '@logger'
-import { HOME_CHERRY_DIR } from '@shared/config/constant'
+import { HOME_M3AGENT_DIR } from '@shared/config/constant'
 import { execFileSync, spawn } from 'child_process'
 import fs from 'fs'
 import os from 'os'
@@ -96,11 +96,11 @@ export async function getBinaryName(name: string): Promise<string> {
 
 export async function getBinaryPath(name?: string): Promise<string> {
   if (!name) {
-    return path.join(os.homedir(), HOME_CHERRY_DIR, 'bin')
+    return path.join(os.homedir(), HOME_M3AGENT_DIR, 'bin')
   }
 
   const binaryName = await getBinaryName(name)
-  const binariesDir = path.join(os.homedir(), HOME_CHERRY_DIR, 'bin')
+  const binariesDir = path.join(os.homedir(), HOME_M3AGENT_DIR, 'bin')
   const binariesDirExists = fs.existsSync(binariesDir)
   return binariesDirExists ? path.join(binariesDir, binaryName) : binaryName
 }

@@ -3,7 +3,7 @@ import type { Attributes, SpanEntity, TokenUsage, TraceCache } from '@mcp-trace/
 import { convertSpanToSpanEntity } from '@mcp-trace/trace-core'
 import { SpanStatusCode } from '@opentelemetry/api'
 import type { ReadableSpan } from '@opentelemetry/sdk-trace-base'
-import { HOME_CHERRY_DIR } from '@shared/config/constant'
+import { HOME_M3AGENT_DIR } from '@shared/config/constant'
 import fs from 'fs/promises'
 import * as os from 'os'
 import * as path from 'path'
@@ -19,7 +19,7 @@ class SpanCacheService implements TraceCache {
   pri
 
   constructor() {
-    this.fileDir = path.join(os.homedir(), HOME_CHERRY_DIR, 'trace')
+    this.fileDir = path.join(os.homedir(), HOME_M3AGENT_DIR, 'trace')
   }
 
   createSpan: (span: ReadableSpan) => void = (span: ReadableSpan) => {
