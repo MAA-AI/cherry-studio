@@ -246,7 +246,7 @@ const DisplaySettings: FC = () => {
           </>
         )}
       </SettingGroup>
-      <SettingGroup theme={theme}>
+      {/* <SettingGroup theme={theme}>
         <SettingTitle style={{ justifyContent: 'flex-start', gap: 5 }}>
           {t('settings.display.navbar.title')} <TextBadge text="New" />
         </SettingTitle>
@@ -263,7 +263,7 @@ const DisplaySettings: FC = () => {
             ]}
           />
         </SettingRow>
-      </SettingGroup>
+      </SettingGroup> */}
       <SettingGroup theme={theme}>
         <SettingTitle>{t('settings.display.zoom.title')}</SettingTitle>
         <SettingDivider />

@@ -45,7 +45,8 @@ const HomeTabs: FC<Props> = ({
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
 
-  const [tab, setTab] = useState<Tab>(position === 'left' ? _tab || 'assistants' : 'topic')
+  // const [tab, setTab] = useState<Tab>(position === 'left' ? _tab || 'assistants' : 'topic')
+  const [tab, setTab] = useState<Tab>('topic')
   const borderStyle = '0.5px solid var(--color-border)'
   const border =
     position === 'left'
@@ -106,7 +107,7 @@ const HomeTabs: FC<Props> = ({
     <Container
       style={{ ...border, ...style }}
       className={classNames('home-tabs', { right: position === 'right' && topicPosition === 'right' })}>
-      {position === 'left' && topicPosition === 'left' && (
+      {/* {position === 'left' && topicPosition === 'left' && (
         <CustomTabs>
           <TabItem active={tab === 'assistants'} onClick={() => setTab('assistants')}>
             {t('assistants.abbr')}
@@ -115,17 +116,17 @@ const HomeTabs: FC<Props> = ({
             {t('common.topics')}
           </TabItem>
         </CustomTabs>
-      )}
+      )} */}
 
       <TabContent className="home-tabs-content">
-        {tab === 'assistants' && (
+        {/* {tab === 'assistants' && (
           <Assistants
             activeAssistant={activeAssistant}
             setActiveAssistant={setActiveAssistant}
             onCreateAssistant={onCreateAssistant}
             onCreateDefaultAssistant={onCreateDefaultAssistant}
           />
-        )}
+        )} */}
         {tab === 'topic' && (
           <Topics
             assistant={activeAssistant}

@@ -48,15 +48,15 @@ const ChatNavbarContent: FC<Props> = ({ assistant }) => {
         <HorizontalScrollContainer className="ml-2 flex-initial">
           <div className="flex flex-nowrap items-center gap-2">
             {/* Assistant Label */}
-            <div
+            {/* <div
               className="flex h-full cursor-pointer items-center gap-1.5"
               onClick={() => AssistantSettingsPopup.show({ assistant })}>
               <EmojiIcon emoji={assistant.emoji || getLeadingEmoji(assistantName)} size={24} />
               <span className="max-w-40 truncate text-xs">{assistantName}</span>
-            </div>
+            </div> */}
 
             {/* Separator */}
-            <ChevronRight className="h-4 w-4 text-gray-400" />
+            {/* <ChevronRight className="h-4 w-4 text-gray-400" /> */}
 
             {/* Model Button */}
             <SelectModelButton assistant={assistant} />
