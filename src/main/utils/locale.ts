@@ -1,21 +1,37 @@
-import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
 import { app } from 'electron'
+import { locales } from './locales'
 
 let translations: Record<string, any> = {}
-let currentLocale = 'zh-cn'
+let currentLocale = 'zh-CN'
+
+function findBestLocale(locale: string): string {
+  if (!locale) return 'en-US'
+  const cleaned = locale.replace('_', '-')
+  const exact = Object.keys(locales).find(l => l.toLowerCase() === cleaned.toLowerCase())
+  if (exact) return exact
+  const parts = cleaned.split('-')
+  const lang = parts[0].toLowerCase()
+  if (lang === 'zh') {
+    const region = (parts[1] || '').toLowerCase()
+    if (region.includes('tw') || region.includes('hant') || region.includes('hk')) {
+      return Object.keys(locales).find(l => l.toLowerCase() === 'zh-tw') ?? 'zh-CN'
+    }
+    return Object.keys(locales).find(l => l.toLowerCase() === 'zh-cn') ?? 'zh-CN'
+  }
+  const pref = Object.keys(locales).find(l => l.toLowerCase().startsWith(`${lang}-`))
+  if (pref) return pref
+  const anyLang = Object.keys(locales).find(l => l.split('-')[0].toLowerCase() === lang)
+  if (anyLang) return anyLang
+  return 'en-US'
+}
 
 export function initLocale() {
   try {
     const locale = app.getLocale()
-    currentLocale = locale.startsWith('zh') ? 'zh-cn' : locale.startsWith('en') ? 'en-us' : 'zh-cn'
-    
-    const translationPath = join(__dirname, '../../renderer/src/i18n/locales', `${currentLocale}.json`)
-    const translationContent = readFileSync(translationPath, 'utf-8')
-    translations = JSON.parse(translationContent)
+    currentLocale = findBestLocale(locale)
+    translations = (locales as any)[currentLocale]?.translation ?? {}
   } catch (error) {
     console.warn('Failed to load translations:', error)
-    // Fallback to empty translations
     translations = {}
   }
 }
@@ -23,22 +39,18 @@ export function initLocale() {
 export function t(key: string, options?: Record<string, string | number>): string {
   const keys = key.split('.')
   let value: any = translations
-  
   for (const k of keys) {
     value = value?.[k]
+    if (value == null) break
   }
-  
   if (typeof value !== 'string') {
-    return key // Fallback to key if translation not found
+    return key
   }
-  
-  // Replace variables in the translation
   if (options) {
     for (const [placeholder, replacement] of Object.entries(options)) {
-      value = value.replace(new RegExp(`{{${placeholder}}}`, 'g'), String(replacement))
+      value = value.replace(new RegExp(`{{\\s*${placeholder}\\s*}}`, 'g'), String(replacement))
     }
   }
-  
   return value
 }
 
