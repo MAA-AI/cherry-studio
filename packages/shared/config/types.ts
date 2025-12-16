@@ -52,3 +52,53 @@ export interface WebSocketCandidatesResponse {
   interface: string
   priority: number
 }
+
+// MCP env (uv/bun) first-run init
+export type McpEnvInitStage =
+  | 'idle'
+  | 'start-check'
+  | 'check-uv'
+  | 'check-bun'
+  | 'need-install'
+  | 'no-need-install'
+  | 'start-install-uv'
+  | 'installing-uv'
+  | 'start-install-bun'
+  | 'installing-bun'
+  | 'env-ready'
+  | 'failed'
+
+export type McpEnvInitLogLevel = 'info' | 'warn' | 'error'
+
+export type McpEnvInitLog = {
+  ts: number
+  level: McpEnvInitLogLevel
+  message: string
+  source?: 'uv' | 'bun' | 'system'
+}
+
+export type McpEnvInitError = {
+  message: string
+  command?: string
+  exitCode?: number | null
+  stderrTail?: string
+  stdoutTail?: string
+  suggestion?: string
+}
+
+export type McpEnvInitState = {
+  stage: McpEnvInitStage
+  uvInstalled: boolean
+  bunInstalled: boolean
+  installing: boolean
+  done: boolean
+  failed: boolean
+  error?: McpEnvInitError
+  logs: McpEnvInitLog[]
+  updatedAt: number
+}
+
+export type McpEnvInitEvent =
+  | { type: 'state'; state: McpEnvInitState }
+  | { type: 'log'; log: McpEnvInitLog }
+  | { type: 'stage'; stage: McpEnvInitStage; at: number }

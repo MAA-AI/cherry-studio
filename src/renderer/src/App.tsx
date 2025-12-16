@@ -12,6 +12,7 @@ import { CodeStyleProvider } from './context/CodeStyleProvider'
 import { NotificationProvider } from './context/NotificationProvider'
 import StyleSheetManager from './context/StyleSheetManager'
 import { ThemeProvider } from './context/ThemeProvider'
+import McpEnvInitPanel from './components/mcp/McpEnvInitPanel'
 import Router from './Router'
 
 const logger = loggerService.withContext('App.tsx')
@@ -39,6 +40,7 @@ function App(): React.ReactElement {
                 <CodeStyleProvider>
                   <PersistGate loading={null} persistor={persistor}>
                     <TopViewContainer>
+                      <McpEnvInitPanel />
                       <Router />
                     </TopViewContainer>
                   </PersistGate>

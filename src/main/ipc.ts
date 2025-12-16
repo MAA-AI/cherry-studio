@@ -43,6 +43,7 @@ import { fileStorage as fileManager } from './services/FileStorage'
 import FileService from './services/FileSystemService'
 import KnowledgeService from './services/KnowledgeService'
 import mcpService from './services/MCPService'
+import { mcpEnvInitService } from './services/McpEnvInitService'
 import MemoryService from './services/memory/MemoryService'
 import { openTraceWindow, setTraceWindowTitle } from './services/NodeTraceService'
 import NotificationService from './services/NotificationService'
@@ -780,6 +781,14 @@ export function registerIpc(mainWindow: BrowserWindow, app: Electron.App) {
   ipcMain.handle(IpcChannel.Aes_Decrypt, (_, encryptedData: string, iv: string, secretKey: string) =>
     decrypt(encryptedData, iv, secretKey)
   )
+
+  // MCP first-run env init (uv/bun)
+  ipcMain.handle(IpcChannel.McpEnv_InitStart, async (event) => {
+    return await mcpEnvInitService.start(event.sender)
+  })
+  ipcMain.handle(IpcChannel.McpEnv_InitGetState, async () => {
+    return mcpEnvInitService.getState()
+  })
 
   // Register MCP handlers
   ipcMain.handle(IpcChannel.Mcp_RemoveServer, mcpService.removeServer)

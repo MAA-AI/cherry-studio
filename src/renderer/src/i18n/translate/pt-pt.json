@@ -1609,6 +1609,75 @@
     },
     "title": "LM Studio"
   },
+  "mcp": {
+    "envInit": {
+      "buttons": {
+        "close": "[to be translated]:Close",
+        "retryActivate": "[to be translated]:Retry Activate maa-mcp",
+        "retryInit": "[to be translated]:Re-check/Retry Initialization"
+      },
+      "description": "[to be translated]:Check and prepare MCP runtime environment (uv / bun), and automatically activate maa-mcp.",
+      "errorSummary": {
+        "certificateIssue": "[to be translated]:Suspected TLS verification failure caused by certificate/proxy man-in-the-middle. Please check system/proxy certificates, corporate proxy or disable HTTPS interception.",
+        "networkIssue": "[to be translated]:Suspected network unavailable or proxy/firewall blocking. Please check network connection, proxy settings, enterprise gateway and DNS.",
+        "permissionUnix": "[to be translated]:Suspected insufficient permissions. Please confirm write permissions to user directory, use sudo/grant permissions if necessary.",
+        "permissionWindows": "[to be translated]:Suspected insufficient permissions. Please try running as administrator, or confirm security software is not blocking user directory writes."
+      },
+      "errors": {
+        "activateFailed": "[to be translated]:Activation failed: \nCommand: uvx maa-mcp\nSuggestion: Check network/proxy/certificate, or retry later.",
+        "activateTimeout": "[to be translated]:Activation timeout: handshake (listTools) not completed within 30 seconds",
+        "cannotConnectMaaMcp": "[to be translated]:Unable to connect to maa-mcp. Possible reasons: network unavailable, proxy/certificate issues, uv/uvx not ready or first startup dependency download failed. Suggest checking logs and retry.",
+        "command": "[to be translated]:Command: ",
+        "connectionTimeout": "[to be translated]:Connection timeout: MCP availability not confirmed within 12 seconds",
+        "exitCode": "[to be translated]:Exit Code: ",
+        "initFailed": "[to be translated]:Initialization Failed",
+        "maaMcpActivateFailed": "[to be translated]:maa-mcp Activation Failed",
+        "stderrTail": "[to be translated]:stderr (tail): ",
+        "stdoutTail": "[to be translated]:stdout (tail): ",
+        "suggestion": "[to be translated]:Suggestion: ",
+        "unknownError": "[to be translated]:Unknown Error"
+      },
+      "logs": {
+        "title": "[to be translated]:Initialization Logs (info/warn/error)"
+      },
+      "messages": {
+        "bunInstallException": "[to be translated]:bun installation exception: ",
+        "bunInstallFailed": "[to be translated]:bun installation failed.",
+        "bunInstallScriptCompleted": "[to be translated]:bun installation script completed",
+        "bunInstalled": "[to be translated]:bun installed",
+        "bunNotInstalled": "[to be translated]:bun not detected",
+        "checkNetworkPermissionCert": "[to be translated]:Please check network/permission/certificate issues and retry.",
+        "checkNetworkProxy": "[to be translated]:Please check network/proxy, certificate and user directory write permissions.",
+        "checkPowerShellFirewall": "[to be translated]:Please check PowerShell/firewall blocking, enterprise proxy, Windows Defender Controlled Folder Access.",
+        "checkSecuritySoftware": "[to be translated]:Please check security software blocking, user directory write permissions, or manually run installation script and retry.",
+        "checkingBun": "[to be translated]:Checking bun ...",
+        "checkingUv": "[to be translated]:Checking uv/uvx ...",
+        "initComplete": "[to be translated]:Initialization complete: uv/bun ready",
+        "initFailed": "[to be translated]:Initialization failed: ",
+        "installScriptCompletedButRecheckFailed": "[to be translated]:Installation script completed, but re-check still failed to detect uv/bun.",
+        "needInstall": "[to be translated]:Need to install: ",
+        "noNeedInstall": "[to be translated]:No installation needed: uv/bun ready",
+        "recheckAfterInstall": "[to be translated]:Re-check uv/bun after installation ...",
+        "startCheck": "[to be translated]:Start checking MCP runtime environment (uv / bun)",
+        "startInstallBun": "[to be translated]:Start installing bun ...",
+        "startInstallUv": "[to be translated]:Start installing uv ...",
+        "uvInstallException": "[to be translated]:uv installation exception: ",
+        "uvInstallFailed": "[to be translated]:uv installation failed.",
+        "uvInstallScriptCompleted": "[to be translated]:uv installation script completed",
+        "uvInstalled": "[to be translated]:uv/uvx installed",
+        "uvNotInstalled": "[to be translated]:uv/uvx not detected"
+      },
+      "steps": {
+        "activateMaaMcp": "[to be translated]:Activate maa-mcp",
+        "checkBun": "[to be translated]:Check bun",
+        "checkUv": "[to be translated]:Check uv",
+        "complete": "[to be translated]:Complete",
+        "install": "[to be translated]:Install (if needed)",
+        "startCheck": "[to be translated]:Start Check"
+      },
+      "title": "[to be translated]:Initialization"
+    }
+  },
   "memory": {
     "actions": "Ações",
     "add_failed": "Falha ao adicionar memória",
