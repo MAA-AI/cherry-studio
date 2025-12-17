@@ -1,8 +1,9 @@
+import path from 'node:path'
+
 import { loggerService } from '@logger'
 import { isWin } from '@main/constant'
 import { getResourcePath } from '@main/utils'
 import { isBinaryExists, spawnNodeScriptStreaming } from '@main/utils/process'
-import { IpcChannel } from '@shared/IpcChannel'
 import type {
   McpEnvInitError,
   McpEnvInitEvent,
@@ -11,9 +12,10 @@ import type {
   McpEnvInitStage,
   McpEnvInitState
 } from '@shared/config/types'
+import { IpcChannel } from '@shared/IpcChannel'
 import type { WebContents } from 'electron'
-import path from 'node:path'
-import { t, initLocale } from '../utils/locale'
+
+import { initLocale, t } from '../utils/locale'
 
 const logger = loggerService.withContext('McpEnvInitService')
 
@@ -46,10 +48,13 @@ function summarizeFailure(stderr: string, stdout: string): string | undefined {
   }
 
   // 权限
-  if (s.includes('eacces') || s.includes('eperm') || s.includes('permission denied') || s.includes('access is denied')) {
-    return isWin
-      ? t('mcp.envInit.errorSummary.permissionWindows')
-      : t('mcp.envInit.errorSummary.permissionUnix')
+  if (
+    s.includes('eacces') ||
+    s.includes('eperm') ||
+    s.includes('permission denied') ||
+    s.includes('access is denied')
+  ) {
+    return isWin ? t('mcp.envInit.errorSummary.permissionWindows') : t('mcp.envInit.errorSummary.permissionUnix')
   }
 
   return undefined
@@ -216,7 +221,11 @@ export class McpEnvInitService {
     }
 
     this.setStage(sender, 'need-install')
-    this.warn(sender, `${t('mcp.envInit.messages.needInstall')}${[needUv ? 'uv' : null, needBun ? 'bun' : null].filter(Boolean).join(', ')}`, 'system')
+    this.warn(
+      sender,
+      `${t('mcp.envInit.messages.needInstall')}${[needUv ? 'uv' : null, needBun ? 'bun' : null].filter(Boolean).join(', ')}`,
+      'system'
+    )
 
     // 3) install uv then bun (sequential)
     this.state.installing = true
@@ -362,4 +371,3 @@ export class McpEnvInitService {
 }
 
 export const mcpEnvInitService = new McpEnvInitService()
-

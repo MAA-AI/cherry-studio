@@ -1,4 +1,4 @@
-import { defineTool, registerTool, TopicType } from '@renderer/pages/home/Inputbar/types'
+import { defineTool, TopicType } from '@renderer/pages/home/Inputbar/types'
 import { isPromptToolUse, isSupportedToolUse } from '@renderer/utils/mcp-tools'
 
 import MCPToolsButton from './components/MCPToolsButton'
@@ -21,6 +21,6 @@ const mcpToolsTool = defineTool({
   )
 })
 
-registerTool(mcpToolsTool)
+// registerTool(mcpToolsTool)
 
 export default mcpToolsTool

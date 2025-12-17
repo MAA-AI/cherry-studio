@@ -1,9 +1,10 @@
 import { loggerService } from '@logger'
+import { useDefaultAssistant } from '@renderer/hooks/useAssistant'
+import { createMaaMcpServer, MAA_MCP_SERVER_NAME } from '@renderer/services/mcp/maaMcp'
 import { useAppDispatch, useAppSelector } from '@renderer/store'
 import { addMCPServer, setIsBunInstalled, setIsUvInstalled, updateMCPServer } from '@renderer/store/mcp'
-import { createMaaMcpServer, MAA_MCP_SERVER_NAME } from '@renderer/services/mcp/maaMcp'
 import type { MCPServer } from '@renderer/types'
-import type { McpEnvInitEvent, McpEnvInitState, McpEnvInitStage } from '@shared/config/types'
+import type { McpEnvInitEvent, McpEnvInitStage, McpEnvInitState } from '@shared/config/types'
 import { Alert, Button, Card, Collapse, Divider, List, Progress, Space, Steps, Typography } from 'antd'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -86,6 +87,7 @@ export default function McpEnvInitPanel(): React.ReactElement | null {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const servers = useAppSelector((s) => s.mcp.servers)
+  const { defaultAssistant, updateDefaultAssistant } = useDefaultAssistant()
 
   const [envState, setEnvState] = useState<McpEnvInitState | null>(null)
   const [activationStage, setActivationStage] = useState<ActivationStage>('idle')
@@ -139,6 +141,7 @@ export default function McpEnvInitPanel(): React.ReactElement | null {
   const activateMaaMcp = async () => {
     if (activationRunningRef.current) return
     activationRunningRef.current = true
+    const currentMcpServers = defaultAssistant.mcpServers || []
 
     try {
       setActivationStage('activating')
@@ -172,21 +175,18 @@ export default function McpEnvInitPanel(): React.ReactElement | null {
       if (!ok) {
         dispatch(updateMCPServer({ ...activatingServer, isActive: false }))
         setActivationStage('failed')
-        setActivationError(
-          t('mcp.envInit.errors.cannotConnectMaaMcp')
-        )
+        setActivationError(t('mcp.envInit.errors.cannotConnectMaaMcp'))
         setVisible(true)
         return
       }
 
       setActivationStage('done')
+      updateDefaultAssistant({ ...defaultAssistant, mcpServers: [...currentMcpServers, activatingServer] })
     } catch (error) {
       const err = error instanceof Error ? error : new Error(String(error))
       logger.error('Activate maa-mcp failed', err)
       setActivationStage('failed')
-      setActivationError(
-        t('mcp.envInit.errors.activateFailed', { error: err.message })
-      )
+      setActivationError(t('mcp.envInit.errors.activateFailed', { error: err.message }))
       setVisible(true)
 
       // 回滚 active 标记
@@ -194,6 +194,7 @@ export default function McpEnvInitPanel(): React.ReactElement | null {
       if (server?.isActive) {
         dispatch(updateMCPServer({ ...server, isActive: false }))
       }
+      updateDefaultAssistant({ ...defaultAssistant, mcpServers: currentMcpServers })
     } finally {
       activationRunningRef.current = false
     }
@@ -278,8 +279,7 @@ export default function McpEnvInitPanel(): React.ReactElement | null {
         alignItems: 'center',
         justifyContent: 'center',
         padding: 24
-      }}
-    >
+      }}>
       <Card style={{ width: 880, maxWidth: '95vw' }}>
         <Space direction="vertical" style={{ width: '100%' }} size={12}>
           <div>
@@ -312,10 +312,18 @@ export default function McpEnvInitPanel(): React.ReactElement | null {
                 <div style={{ whiteSpace: 'pre-wrap' }}>
                   {envState.error?.message || t('mcp.envInit.errors.unknownError')}
                   {envState.error?.command ? `\n${t('mcp.envInit.errors.command')}${envState.error.command}` : ''}
-                  {typeof envState.error?.exitCode === 'number' ? `\n${t('mcp.envInit.errors.exitCode')}${envState.error.exitCode}` : ''}
-                  {envState.error?.stderrTail ? `\n\n${t('mcp.envInit.errors.stderrTail')}\n${envState.error.stderrTail}` : ''}
-                  {envState.error?.stdoutTail ? `\n\n${t('mcp.envInit.errors.stdoutTail')}\n${envState.error.stdoutTail}` : ''}
-                  {envState.error?.suggestion ? `\n\n${t('mcp.envInit.errors.suggestion')}${envState.error.suggestion}` : ''}
+                  {typeof envState.error?.exitCode === 'number'
+                    ? `\n${t('mcp.envInit.errors.exitCode')}${envState.error.exitCode}`
+                    : ''}
+                  {envState.error?.stderrTail
+                    ? `\n\n${t('mcp.envInit.errors.stderrTail')}\n${envState.error.stderrTail}`
+                    : ''}
+                  {envState.error?.stdoutTail
+                    ? `\n\n${t('mcp.envInit.errors.stdoutTail')}\n${envState.error.stdoutTail}`
+                    : ''}
+                  {envState.error?.suggestion
+                    ? `\n\n${t('mcp.envInit.errors.suggestion')}${envState.error.suggestion}`
+                    : ''}
                 </div>
               }
             />
@@ -338,16 +346,14 @@ export default function McpEnvInitPanel(): React.ReactElement | null {
               onClick={() => {
                 void activateMaaMcp()
               }}
-              disabled={!envState?.done || envState?.failed || activationStage === 'activating'}
-            >
+              disabled={!envState?.done || envState?.failed || activationStage === 'activating'}>
               {t('mcp.envInit.buttons.retryActivate')}
             </Button>
             <Button
               onClick={() => {
                 // 由用户手动关闭（不自动关闭）
                 setVisible(false)
-              }}
-            >
+              }}>
               {t('mcp.envInit.buttons.close')}
             </Button>
           </Space>

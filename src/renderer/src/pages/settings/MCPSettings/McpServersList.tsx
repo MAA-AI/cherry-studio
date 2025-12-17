@@ -4,6 +4,7 @@ import CollapsibleSearchBar from '@renderer/components/CollapsibleSearchBar'
 import { Sortable, useDndReorder } from '@renderer/components/dnd'
 import { EditIcon } from '@renderer/components/Icons'
 import Scrollbar from '@renderer/components/Scrollbar'
+import { useDefaultAssistant } from '@renderer/hooks/useAssistant'
 import { useMCPServers } from '@renderer/hooks/useMCPServers'
 import { useMCPServerTrust } from '@renderer/hooks/useMCPServerTrust'
 import type { MCPServer } from '@renderer/types'
@@ -30,6 +31,7 @@ const McpServersList: FC = () => {
   const { ensureServerTrusted } = useMCPServerTrust()
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { defaultAssistant, updateDefaultAssistant } = useDefaultAssistant()
   const [isAddModalVisible, setIsAddModalVisible] = useState(false)
   const [modalType, setModalType] = useState<'json' | 'dxt'>('json')
   const [loadingServerIds, setLoadingServerIds] = useState<Set<string>>(new Set())
@@ -163,8 +165,11 @@ const McpServersList: FC = () => {
 
     setLoadingServerIds((prev) => new Set(prev).add(serverForUpdate.id))
     const oldActiveState = serverForUpdate.isActive
+    const currentMcpServers = defaultAssistant.mcpServers || []
     logger.silly('toggle activate', { serverId: serverForUpdate.id, active })
+
     try {
+      // 更新服务器全局激活状态
       if (active) {
         await fetchServerVersion({ ...serverForUpdate, isActive: active })
       } else {
@@ -172,6 +177,19 @@ const McpServersList: FC = () => {
         setServerVersions((prev) => ({ ...prev, [serverForUpdate.id]: null }))
       }
       updateMCPServer({ ...serverForUpdate, isActive: active })
+
+      // 更新默认助手的MCP配置
+      let updatedMcpServers: MCPServer[]
+      if (active) {
+        if (!currentMcpServers.some((s) => s.id === serverForUpdate.id)) {
+          updatedMcpServers = [...currentMcpServers, serverForUpdate]
+        } else {
+          updatedMcpServers = currentMcpServers
+        }
+      } else {
+        updatedMcpServers = currentMcpServers.filter((s) => s.id !== serverForUpdate.id)
+      }
+      updateDefaultAssistant({ ...defaultAssistant, mcpServers: updatedMcpServers })
     } catch (error: any) {
       window.modal.error({
         title: t('settings.mcp.startError'),
@@ -179,6 +197,7 @@ const McpServersList: FC = () => {
         centered: true
       })
       updateMCPServer({ ...serverForUpdate, isActive: oldActiveState })
+      updateDefaultAssistant({ ...defaultAssistant, mcpServers: currentMcpServers })
     } finally {
       setLoadingServerIds((prev) => {
         const next = new Set(prev)
